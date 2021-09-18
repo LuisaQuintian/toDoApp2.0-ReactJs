@@ -16,14 +16,31 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    // pegar o newTaskTitle.
+    // criar um ID aleatorio unico.
+    // adicionar uma nova task com default para não completada.
+    
+    newTaskTitle && setTasks([...tasks, {
+      id: Math.random()*10000,
+      title: newTaskTitle,
+      isComplete: false
+    }])
+
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    console.log(id)
+    // criar uma constante que será a nova tasks alterando o valor de isComplete
+    const newTasks = tasks.map(task => task.id === id ? {...task, isComplete: !task.isComplete} : task)
+    setTasks(newTasks)
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    // criar uma constante filteredTasks filtrando pela task com id igual ao passado para a função
+    const filteredTasks = tasks.filter(task => task.id !== id)
+    setTasks(filteredTasks)
   }
 
   return (
@@ -46,7 +63,7 @@ export function TaskList() {
 
       <main>
         <ul>
-          {tasks.map(task => (
+        {tasks.map(task => (
             <li key={task.id}>
               <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
                 <label className="checkbox-container">
@@ -66,7 +83,6 @@ export function TaskList() {
               </button>
             </li>
           ))}
-          
         </ul>
       </main>
     </section>
